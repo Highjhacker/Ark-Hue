@@ -32,8 +32,18 @@ if __name__ == '__main__':
     bridge = Bridge(get_ip_from_config(), get_username_from_config())
     # If running for the first time press button on bridge and run with bridge.connect()
     bridge.connect()
+    prices = []
     while True:
-        print(get_ark_price())
-        time.sleep(10)
+        prices.append(get_ark_price())
+        print(prices)
+        time.sleep(2)
+        if len(prices) >= 2:
+            if prices[-1] > prices[0]:
+                print("Green")
+            elif prices[-1] < prices[0]:
+                print("Red")
+            else:
+                print("No colors change")
+            prices.pop(0)
 
 

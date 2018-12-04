@@ -32,21 +32,29 @@ def set_color(_bridge, _up_color, _down_color, _transition_time):
             _bridge.set_light(1, 'hue', _down_color, transitiontime=_transition_time)
 
 
-def on_exit():
-    bridge.set_light(1, "hue", initial_color)
+def get_initial_color(_bridge):
+    try:
+        _initial_color = _bridge.get_api()["lights"]["1"]["state"]["hue"]
+    except:
+        _initial_color = 0
+    return _initial_color
+
+
+def on_exit(_initial_color):
+    bridge.set_light(1, "hue", _initial_color)
     bridge.set_light(1, "on", False)
 
 
 if __name__ == '__main__':
     bridge = Bridge(get_from_config("bridge_ip"))
     bridge.connect()
-    bridge.set_light(get_from_config("light_id"), "on", True)
+    bridge.set_light(int(get_from_config("light_id")), "on", True)
     set_brightness(bridge)
 
-    initial_color = bridge.get_api()["lights"]["1"]["state"]["hue"]
+    initial_color = get_initial_color(bridge)
     prices = (get_ark_price(), get_ark_price())
 
-    atexit.register(on_exit)
+    atexit.register(on_exit, _initial_color=initial_color)
 
     while True:
         try:

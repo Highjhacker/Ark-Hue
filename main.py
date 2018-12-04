@@ -29,15 +29,20 @@ def main(b):
 
 
 if __name__ == '__main__':
-    bridge = Bridge(get_ip_from_config(), get_username_from_config())
+    bridge = Bridge(get_ip_from_config())
     # If running for the first time press button on bridge and run with bridge.connect()
     bridge.connect()
+    bridge.set_light(1, 'bri', 254, transitiontime=4)
+
     prices = (get_ark_price(), get_ark_price())
+
     while True:
         print(prices)
         if prices[-1] > prices[0]:
+            bridge.set_light(1, 'hue', 23848, transitiontime=4)
             print("Green")
         elif prices[-1] < prices[0]:
+            bridge.set_light(1, 'hue', 65044, transitiontime=4)
             print("Red")
         else:
             print("No colors change")

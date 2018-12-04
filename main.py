@@ -21,15 +21,9 @@ def set_brightness(_bridge):
 
 def set_color(_bridge, _up_color, _down_color, _transition_time):
     if prices[-1] > prices[0]:
-        if _up_color == 23848:
-            _bridge.set_light(1, 'hue', 23848, transitiontime=_transition_time)
-        else:
-            _bridge.set_light(1, 'hue', _up_color, transitiontime=_transition_time)
+        _bridge.set_light(1, 'hue', _up_color, transitiontime=_transition_time)
     elif prices[-1] < prices[0]:
-        if _down_color == 65044:
-            _bridge.set_light(1, 'hue', 65044, transitiontime=_transition_time)
-        else:
-            _bridge.set_light(1, 'hue', _down_color, transitiontime=_transition_time)
+        _bridge.set_light(1, 'hue', _down_color, transitiontime=_transition_time)
 
 
 def get_initial_color(_bridge):
